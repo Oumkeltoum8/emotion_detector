@@ -12,6 +12,7 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = BertEmotionClassifier().to(DEVICE)
 optimizer = AdamW(model.parameters(), lr=LR)
 loss_fn = torch.nn.CrossEntropyLoss()
+train_loader, val_loader, test_loader = load_data()
 
 # Boucle d'entraînement
 for epoch in range(EPOCHS):
@@ -20,7 +21,7 @@ for epoch in range(EPOCHS):
     optimizer.zero_grad()
     probs = model(batch['input_ids'].to(DEVICE),
                 batch['attention_mask'].to(DEVICE))
-    loss = loss_fn(probs, batch['labels'].to(DEVICE))
+    loss = loss_fn(probs, batch['label'].to(DEVICE))
     loss.backward()
     optimizer.step()
   print(f"Epoch {epoch+1} — Loss: {loss.item():.4f}")

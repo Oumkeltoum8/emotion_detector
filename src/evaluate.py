@@ -14,7 +14,7 @@ def evaluate(model, test_loader, device):
                   batch['attention_mask'].to(device))
       preds = probs.argmax(dim=1).cpu().tolist()
       all_preds.extend(preds)
-      all_labels.extend(batch['labels'].tolist())
+      all_labels.extend(batch['label'].tolist())
 
   # Rapport complet
   print(classification_report(all_labels, all_preds,
